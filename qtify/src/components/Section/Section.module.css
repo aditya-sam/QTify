@@ -1,0 +1,85 @@
+.gridContainer {
+  padding: 0 15px;
+  min-height: 220px; /* keeps layout stable during collapse/expand */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive breakpoints: fewer columns on smaller screens */
+@media (max-width: 1200px) {
+  .gridContainer {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gridContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.swiperContainer {
+  padding: 0 15px;
+}
+.swiperContainer :global(.swiper-button-prev),
+.swiperContainer :global(.swiper-button-next) {
+  color: white;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.swiperContainer :global(.swiper-button-prev) svg,
+.swiperContainer :global(.swiper-button-next) svg {
+  display: none;
+}
+
+.swiperContainer :global(.swiper-button-prev) {
+  background-image: url("../../assets/swiper-left.svg");
+  background-size: 32px;
+  left: 0;
+}
+
+.swiperContainer :global(.swiper-button-next) {
+  background-image: url("../../assets/swiper-right.svg");
+  background-size: 32px;
+  right: 0;
+}
+
+.swiperContainer :global(.swiper-button-prev),
+.swiperContainer :global(.swiper-button-next) {
+  color: white;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.swiperContainer :global(.swiper-button-prev) svg,
+.swiperContainer :global(.swiper-button-next) svg {
+  display: none;
+}
+
+.swiperContainer :global(.swiper-button-prev) {
+  background-image: url("../../assets/swiper-left.svg");
+  background-size: 32px;
+  left: 0;
+}
+
+.swiperContainer :global(.swiper-button-next) {
+  background-image: url("../../assets/swiper-right.svg");
+  background-size: 32px;
+  right: 0;
+}
