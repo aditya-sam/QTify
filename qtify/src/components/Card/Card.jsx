@@ -26,7 +26,11 @@ export default function ActionAreaCard({ album }) {
             }}
           >
             <Chip
-              label={album.follows + " Follows"}
+              label={
+                album.follows
+                  ? album.follows + " Follows"
+                  : album.likes + " Likes"
+              }
               sx={{
                 backgroundColor: "black",
                 color: "white",
