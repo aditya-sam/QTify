@@ -3,6 +3,9 @@
 
 .App {
   text-align: center;
+  padding-top: 70px;
+  /* leave room for fixed bottom player */
+  padding-bottom: 130px;
 }
 
 .App-logo {

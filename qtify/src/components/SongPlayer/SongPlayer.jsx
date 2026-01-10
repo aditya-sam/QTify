@@ -6,6 +6,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 
 import styles from "./SongPlayer.module.css";
+import { usePlayer } from "../../contexts/PlayerContext";
 
 // Fallback audio when song has no url
 const FALLBACK_AUDIO =
@@ -19,9 +20,8 @@ function formatTime(ms) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
-  const [index, setIndex] = useState(initialIndex);
-  const [playing, setPlaying] = useState(false);
+export default function SongPlayer() {
+  const { playlist, index, playing, setIndex, setPlaying } = usePlayer();
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef(null);
@@ -51,7 +51,7 @@ export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
       audio.removeEventListener("timeupdate", onTime);
       audio.removeEventListener("ended", onEnded);
     };
-  }, [playlist.length]);
+  }, [playlist.length, setIndex, setPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -60,15 +60,18 @@ export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
       audio.src = song.audioUrl || song.url || song.streamUrl || FALLBACK_AUDIO;
       audio.load();
       if (playing) audio.play().catch(() => setPlaying(false));
+    } else {
+      // if nothing to play, pause
+      audio.pause();
     }
-  }, [index, playlist, playing]);
+  }, [index, playlist, playing, setPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     if (playing) audio.play().catch(() => setPlaying(false));
     else audio.pause();
-  }, [playing]);
+  }, [playing, setPlaying]);
 
   const handlePlayPause = () => setPlaying((p) => !p);
 
@@ -93,9 +96,9 @@ export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
   const song = playlist[index] || {};
 
   return (
-    <Box className={styles.player} sx={{ mt: 2, color: "white" }}>
-      <Box display="flex" alignItems="center">
-        <Box sx={{ width: 80, height: 80, mr: 2 }}>
+    <Box className={styles.player}>
+      <Box display="flex" alignItems="center" width="100%" padding="8px 16px">
+        <Box sx={{ width: 100, height: 100, mr: 4 }}>
           <img
             src={song.image}
             alt={song.title}
@@ -107,14 +110,23 @@ export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
             }}
           />
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <Typography sx={{ fontWeight: 600 }}>
+        <Box sx={{ pt: 2, pb: 2, flexGrow: 1 }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
             {song.title || "No song selected"}
           </Typography>
-          <Typography sx={{ color: "#aaa", fontSize: 12 }}>
+          <Typography
+            sx={{
+              color: "#fff",
+              fontSize: 12,
+            }}
+          >
             {(song.artists || []).join(", ")}
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               onClick={handlePrev}
               sx={{ color: "white" }}
@@ -140,7 +152,7 @@ export default function SongPlayer({ playlist = [], initialIndex = 0 }) {
               {formatTime(currentTime)} / {formatTime(duration)}
             </Typography>
           </Box>
-          <Box>
+          <Box sx={{ width: "100%" }}>
             <Slider
               value={currentTime}
               min={0}

@@ -1,0 +1,58 @@
+.albumPage {
+  padding: 24px 32px 120px; /* leave space for bottom player */
+  color: white;
+  background-color: var(--color-black);
+}
+
+.songList {
+  border-top: 1px solid #333;
+}
+
+.songHeader {
+  display: grid;
+  grid-template-columns: 40px 2fr 1fr 80px;
+  padding: 12px 8px;
+  color: #aaa;
+  align-items: center;
+}
+
+.songRow {
+  display: grid;
+  grid-template-columns: 40px 2fr 1fr 80px;
+  padding: 12px 8px;
+  border-bottom: 1px solid #222;
+  cursor: pointer;
+  align-items: center;
+}
+
+.songRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.thumb {
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.songTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.songArtist {
+  color: #ccc;
+}
+
+.songDuration {
+  text-align: right;
+  color: #ccc;
+}

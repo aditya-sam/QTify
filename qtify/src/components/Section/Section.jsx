@@ -26,7 +26,7 @@ export default function Section({
         <div className={styles.gridContainer}>
           {items.map((item, idx) => (
             <div className={styles.gridItem} key={item.id || idx}>
-              {renderItem(item)}
+              {renderItem(item, idx, items)}
             </div>
           ))}
         </div>
@@ -48,7 +48,7 @@ export default function Section({
           className={styles.swiperContainer}
         >
           {items.map((item, idx) => (
-            <SwiperSlide key={item.id || idx}>{renderItem(item)}</SwiperSlide>
+            <SwiperSlide key={item.id || idx}>{renderItem(item, idx, items)}</SwiperSlide>
           ))}
         </Swiper>
       </Collapse>

@@ -4,12 +4,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Chip from "@mui/material/Chip";
+import { useNavigate } from "react-router-dom";
 
-export default function ActionAreaCard({ album }) {
+export default function ActionAreaCard({ album, onClick }) {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (onClick) return onClick();
+    if (album && album.slug) navigate(`/album/${album.slug}`);
+  };
+
   return (
     <>
       <Card sx={{ width: "100%", maxHeight: "auto", borderRadius: 2 }}>
-        <CardActionArea sx={{ maxHeight: "auto" }}>
+        <CardActionArea sx={{ maxHeight: "auto" }} onClick={handleClick}>
           <CardMedia
             component="img"
             height="170"

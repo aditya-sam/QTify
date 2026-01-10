@@ -12,8 +12,8 @@ import Section from "../Section/Section";
 import ActionAreaCard from "../Card/Card";
 import Button from "../Button/Button";
 import Faq from "../Faq/Faq";
-import SongPlayer from "../SongPlayer/SongPlayer";
-
+import { usePlayer } from "../../contexts/PlayerContext";
+import { useAlbums } from "../../contexts/AlbumsContext";
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -30,6 +30,11 @@ export default function Home() {
     setValue(newValue);
   };
 
+  const {
+    setTopAlbums: setTopAlbumsFromContext,
+    setNewAlbums: setNewAlbumsFromContext,
+  } = useAlbums();
+
   useEffect(() => {
     (async () => {
       const results = await Promise.allSettled([
@@ -43,12 +48,14 @@ export default function Home() {
 
       if (topRes.status === "fulfilled") {
         setTopAlbums(topRes.value.data);
+        if (setTopAlbumsFromContext) setTopAlbumsFromContext(topRes.value.data);
       } else {
         enqueueSnackbar("Failed to fetch top albums", { variant: "error" });
       }
 
       if (newRes.status === "fulfilled") {
         setNewAlbums(newRes.value.data);
+        if (setNewAlbumsFromContext) setNewAlbumsFromContext(newRes.value.data);
       } else {
         enqueueSnackbar("Failed to fetch new albums", { variant: "error" });
       }
@@ -65,13 +72,16 @@ export default function Home() {
         enqueueSnackbar("Failed to fetch genres", { variant: "error" });
       }
     })();
-  }, [enqueueSnackbar]);
+  }, [enqueueSnackbar, setTopAlbumsFromContext, setNewAlbumsFromContext]);
 
   // Render function for albums as cards
   const renderAlbumCard = (album) => <ActionAreaCard album={album} />;
 
-  // Render function for songs as cards
-  const renderSongCard = (song) => <ActionAreaCard album={song} />;
+  // Render function for songs as cards (we receive index and the items array from Section)
+  const { playTrack } = usePlayer();
+  const renderSongCard = (song, idx, items) => (
+    <ActionAreaCard album={song} onClick={() => playTrack(items, idx)} />
+  );
 
   return (
     <div className={styles.home}>
@@ -233,10 +243,7 @@ export default function Home() {
           <Faq />
         </Box>
 
-        {/* Song player */}
-        <Box mt={4}>
-          <SongPlayer playlist={songs} />
-        </Box>
+        {/* Song player is persistent at app-level now */}
       </Box>
     </div>
   );
