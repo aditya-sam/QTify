@@ -1,0 +1,8 @@
+:root {
+  --modal-bg: #0b0b0b;
+}
+
+/* Keep most styling inlined via MUI sx, but module exists for future tweaks */
+.modalRoot {
+  color: white;
+}
