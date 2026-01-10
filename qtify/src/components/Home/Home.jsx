@@ -11,6 +11,8 @@ import Hero from "../Hero/Hero";
 import Section from "../Section/Section";
 import ActionAreaCard from "../Card/Card";
 import Button from "../Button/Button";
+import Faq from "../Faq/Faq";
+import SongPlayer from "../SongPlayer/SongPlayer";
 
 import styles from "./Home.module.css";
 
@@ -222,6 +224,19 @@ export default function Home() {
             </TabPanel>
           ))}
         </TabContext>
+
+        {/* FAQs */}
+        <Box mt={4}>
+          <Typography sx={{ fontWeight: 600, color: "white", mb: 2 }}>
+            FAQs
+          </Typography>
+          <Faq />
+        </Box>
+
+        {/* Song player */}
+        <Box mt={4}>
+          <SongPlayer playlist={songs} />
+        </Box>
       </Box>
     </div>
   );
